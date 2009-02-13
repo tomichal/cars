@@ -36,9 +36,7 @@ class Brandwatch
       @cookie = Cookie.new(response)
       return @cookie
     }
-    
-    
-    
+
   end
 
   headers :Cookie => Brandwatch.authenticate
