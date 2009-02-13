@@ -5,19 +5,9 @@ class SearchController < ApplicationController
   def new
     @query = params[:q]
     
-    uri = URI.parse("http://www.discogs.com/search?type=all&q=afx&f=xml&api_key=9ab68aec64")
-    req = Net::HTTP::Get.new(uri.path)
-    res = Net::HTTP.start(uri.host, uri.port) do |http|
-      http.request(req)
-    end
+    response = Search.get_query(@query)
     
-
-
-    
-    
-
-    raise res.body.inspect
-    
+    render :json => response['response']['results']
   end
   
 end

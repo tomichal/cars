@@ -5,19 +5,18 @@ class Search
   include HTTParty
   format :xml
   
-  base_uri 'www.discogs.com'
+  base_uri 'developer.echonest.com'
 
-  def self.get_query(api_key, query)
+  def self.get_query(query)
     options = {
       :query => {
-        :api_key => api_key,
-        :type => 'all',
-        :f => 'xml',
-        :q => query        
-      },
-      :headers => { 'Accept-Encoding', 'gzip'}
+        :api_key => 'JJGW9AYXEC1K6QEYI',
+        :query => URI.encode(query),
+        :rows => 15,
+        :version => 3
+      }
     }
     
-    get "/search", options
+    get "/api/search_tracks", options    
   end
 end
