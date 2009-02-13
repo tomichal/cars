@@ -11,10 +11,16 @@ class BrandsController < ApplicationController
   def new
     artist_name = params[:artist_name]
     
-    @brand = Brandwatch.brand(artist_name)
-    Brandwatch.graph_data(@brand)
+    if Brandwatch.brand_exists?(artist_name)
     
-    redirect_to brand_path(@brand)
+      @brand = Brandwatch.brand(artist_name)
+      Brandwatch.graph_data(@brand)
+      
+      redirect_to brand_path(@brand)
+    else
+      flash[:error] = "SORRY, that brand aint covered by brandwatch"
+      redirect_to artists_path
+    end
   end
   
 end

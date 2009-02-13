@@ -1,16 +1,19 @@
 %h1
   Brand View
   
-%h3= @brand.name
+%h3= "Artist: #{@brand.name}"
 
 %p
   Brand id on brandwatch:
   = @brand.brand_id
+
+%h3
+  Graph Data
   
 %table
   %tr
     %th= "Date"
-    %th= "Mean BW"
+    %th= "Mean Score"
   - @graph.daily_data_points.each do |data_point|
     %tr
       %td= data_point.date
