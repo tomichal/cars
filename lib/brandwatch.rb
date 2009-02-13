@@ -7,51 +7,6 @@ require 'net/http'
 require "cgi"
 
 
-
-class Cookie
-  
-  #:Cookie=>"__utma=50810234.4250948930118037500.1234516806.1234516806.1234525337.2; __utmc=50810234; __utmz=50810234.1234525337.2.2.utmcsr=twitter.com|utmccn=(referral)|utmcmd=referral|utmcct=/home; JSESSIONID=E91E5FDE387E559DD61E959E903B2A8C; subscriptionsReturnUrl=/onebrand?from-day=13&from-month=1&to-day=12&to-month=2&id=201060&brandID=201060&; sort_myBrandsTable37=0,ASC; siteAnalysis37=0; sort_site-analysis-table37=0,ASC; currentTopicsTable137=topics-keyphrase,tab-keyphrase-newest,tab-person-longterm,tab-organisation-longterm,tab-location-longterm,tab-userCreated-all"
-  
-  def initialize(options)
-    @options = options
-  end
-  
-  def content
-    "JSESSIONID=#{@options["set-cookie"]}"
-  end
-  
-  # def to_hash
-  #     {
-  #       "jessionid=#{@options["set-cookie"]}"
-  #     }
-  #   end
-  
-  # def to_hash
-  #    {
-  #      "jessionid" => @options["set-cookie"].split('=')[1]
-  #    }
-  #  end
-  
-  def to_hash
-    # cookie = CGI::Cookie.new("jessionid", @options["set-cookie"].split('=')[1]);
-    #     cgi = CGI.new("html3")
-    #     cgi.out( "cookie" => [cookie] ){
-    #       cgi.html{
-    #         "\nHTML content here"
-    #       }
-    #     }
-    #     
-    #     cookie
-    
-    {
-      "Content-Type" => "text/xml",
-      "Content-Length" => "300",
-      "Cookie" => "jessionid=E43F2D362346F2EF708A0434C7373F3D%3B"
-   }
-  end
-  
-end
-
 class Brand
   
   attr_reader :name, :id, :industry
@@ -140,8 +95,9 @@ class Brandwatch
      
     puts "Options: #{options.inspect}"
      
-    post('/onebrandtopicsgraphdata', options)
-
+    trend_response = post('/onebrandtopicsgraphdata', options)
+    trend_data = TrendData.new(trend_response)
+    trend_data
    end
 
   
