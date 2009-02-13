@@ -20,15 +20,15 @@ class Brandwatch
     post('/brandlist', options)
   end
   
-  def self.find_brand(brand)
+  def self.brand_exists?(brand)
     all_brands = brands(brand)
-    puts "ALL brands: #{all_brands.to_yaml}"
+    #puts "ALL brands: #{all_brands.to_yaml}"
+    
     
     actual_brands = all_brands['page']['brands']
-    actual_brands.each_pair do |key, value|
-      puts "Key: #{key}, Value: #{value}"
-    end
+    return false unless actual_brands
     
+    return actual_brands.has_key?('brand')      
   end
   
   # def self.authenticate
