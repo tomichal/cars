@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :comparisons
+  map.resources :artists
+  map.connect '/search', :controller => 'search', :action => 'new'
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
