@@ -1,0 +1,20 @@
+%main
+  %h2
+    Compare things!
+  = form_for(@comparison) do
+    %p
+      %label
+        Brand 1
+        %input{:type => 'text', :name => 'brand1'}
+        
+    %p
+      %label
+        Brand 2
+        %input{:type => 'text', :name => 'brand2'}
+        
+
+      
+    
+    
+    %p
+      = submit_tag "Compare on Brandwatch!"
