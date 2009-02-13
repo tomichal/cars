@@ -18,6 +18,19 @@ class Cookie
   
 end
 
+class Brand
+  
+  attr_reader :name, :id, :industry
+  
+  def initialize(options)
+    @name = options["name"]
+    @id = options["id"]
+    @industry = options["industry"]
+  end
+
+end
+
+
 class Brandwatch
   
   USERNAME = 'mack.hashup@brandwatch.net' 
@@ -42,7 +55,7 @@ class Brandwatch
   headers :Cookie => Brandwatch.authenticate
 
   def self.industry_brands(industry, prefix)
-    options = { :query => {:prefix => text, :industry => industry}, :headers => @headers }
+    options = { :query => {:prefix => prefix, :industries => industry}, :headers => @headers }
     post('/brandlist', options)
   end
 
@@ -52,7 +65,7 @@ class Brandwatch
   end
   
   def self.brand_exists?(brand)
-    all_brands = brands(brand)
+    all_brands = industry_brands('music', brand)
     
     
     actual_brands = all_brands['page']['brands']
@@ -61,7 +74,32 @@ class Brandwatch
     return actual_brands.has_key?('brand')      
   end
   
+  def self.brands_exist?(brand_1, brand_2)
+    brand_exists?(brand_1) && brand_exists?(brand_2)
+  end
+ 
+  def self.brand(brand_name)
+    all_brands = {}
+    
+    if brand_exists?(brand_name)
+      all_brands = industry_brands('music', brand_name)
+      
+      
+      brand = Brand.new(all_brands["page"]["brands"]["brand"])
+      return brand
+    end
+
+    #return all_brands.inspect
+    return nil
+  end
   
+  # def self.brand_id(brand)
+  #  end
+  
+  
+  # def self.trend(brand)
+  #     options = { :query => {:}}
+  #   end
   
 end
 
