@@ -74,9 +74,10 @@ class Brandwatch
       
       
       brand_params = all_brands["page"]["brands"]["brand"]
-      brand = Brand.create({
+      brand = Brand.find_or_create_by_name(brand_params["name"])
+      
+      brand.update_attributes({
         :brand_id => brand_params["id"],
-        :name => brand_params["name"],
         :industry => brand_params["industry"]
       })
       

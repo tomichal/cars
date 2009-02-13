@@ -2,6 +2,6 @@
   %ul
     - for data in DATA.sort_by{ |item| item['name'] }
       %li
-        = link_to data['name'], :class => "link_#{data['id']}"
-      
+        = link_to 'Show brandwatch data', "/brands/new/?artist_name=#{data['name']}"
+        = link_to data['name'], :class => "song_link"
         %div{:style => 'display:none', :class => "info_#{data['id']}"}

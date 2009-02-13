@@ -2,7 +2,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 $(document).ready(function() {
-    $('a').click(function() {
+    $('a.song_link').click(function() {
         var img = $(this).after("<img src='/images/loader.gif'/>");
 
 

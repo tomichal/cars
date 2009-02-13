@@ -7,3 +7,12 @@
   Brand id on brandwatch:
   = @brand.brand_id
   
+%table
+  %tr
+    %th= "Date"
+    %th= "Mean BW"
+  - @graph.daily_data_points.each do |data_point|
+    %tr
+      %td= data_point.date
+      %td= data_point.mean_bw
+      
