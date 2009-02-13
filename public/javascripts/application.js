@@ -15,7 +15,15 @@ $(document).ready(function() {
             img.next().show('fast');
             
             $.each(data, function(i, element) {
-                img.append("<p><a href='" + element['url']+ "'>" + element['artist'] + ' - ' + element['title'] + "</a><br/></p>")
+                var p = document.createElement('p');
+                var link = document.createElement('a');
+                link.setAttribute('href', element['url']);
+                var txt = document.createTextNode(element['artist'] + ' - ' + element['title']);
+                link.appendChild(txt);
+                p.appendChild(link);
+                img.append($(p));
+                
+                //img.append("<a href='" + element['url']+ "'>" + element['artist'] + ' - ' + element['title'] + "</a><br/>")
             })
         });
         

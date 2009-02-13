@@ -1,0 +1,30 @@
+body {
+    background: #004;
+    color: white;
+    font-family: Helvetica, Verdana;
+    line-height: 2.4;
+    font-size: 1.3em;
+}
+
+a, a:active, a:visited {
+    color: white;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+    color:orange;
+}
+
+li {
+    list-style-type: none;
+}
+
+img {
+    width: 20px;
+    vertical-align: middle;
+}
+
+div.info {
+    background: #55f;
+}
