@@ -4,6 +4,10 @@ require "httparty"
 
 require 'net/http'
 
+require "cgi"
+
+
+
 class Cookie
   
   #:Cookie=>"__utma=50810234.4250948930118037500.1234516806.1234516806.1234525337.2; __utmc=50810234; __utmz=50810234.1234525337.2.2.utmcsr=twitter.com|utmccn=(referral)|utmcmd=referral|utmcct=/home; JSESSIONID=E91E5FDE387E559DD61E959E903B2A8C; subscriptionsReturnUrl=/onebrand?from-day=13&from-month=1&to-day=12&to-month=2&id=201060&brandID=201060&; sort_myBrandsTable37=0,ASC; siteAnalysis37=0; sort_site-analysis-table37=0,ASC; currentTopicsTable137=topics-keyphrase,tab-keyphrase-newest,tab-person-longterm,tab-organisation-longterm,tab-location-longterm,tab-userCreated-all"
@@ -14,6 +18,36 @@ class Cookie
   
   def content
     "JSESSIONID=#{@options["set-cookie"]}"
+  end
+  
+  # def to_hash
+  #     {
+  #       "jessionid=#{@options["set-cookie"]}"
+  #     }
+  #   end
+  
+  # def to_hash
+  #    {
+  #      "jessionid" => @options["set-cookie"].split('=')[1]
+  #    }
+  #  end
+  
+  def to_hash
+    # cookie = CGI::Cookie.new("jessionid", @options["set-cookie"].split('=')[1]);
+    #     cgi = CGI.new("html3")
+    #     cgi.out( "cookie" => [cookie] ){
+    #       cgi.html{
+    #         "\nHTML content here"
+    #       }
+    #     }
+    #     
+    #     cookie
+    
+    {
+      "Content-Type" => "text/xml",
+      "Content-Length" => "300",
+      "Cookie" => "jessionid=E43F2D362346F2EF708A0434C7373F3D%3B"
+   }
   end
   
 end
@@ -46,9 +80,14 @@ class Brandwatch
     Net::HTTP.start(ROOTURL) {|http|
       req = Net::HTTP::Get.new("/j_acegi_security_check?j_username=#{USERNAME}&j_password=#{PASSWORD}")
       response = http.request(req)
-      @cookie = Cookie.new(response)
-      return @cookie
+      cookie = response.response['set-cookie'].split(';')[0]
+      return {"Cookie" => cookie}
+      #@cookie = Cookie.new(response)
+      #return @cookie
     }
+
+#response = http.request(get)
+ # cookie = response.response['set-cookie'].split(';')[0]
 
   end
 
@@ -60,7 +99,7 @@ class Brandwatch
   end
 
   def self.brands(text)
-    options = { :query => {:prefix => text}, :headers => @headers }
+    options = { :query => {:prefix => text}, :headers => @headers, :headers => @headers }
     post('/brandlist', options)
   end
   
@@ -88,14 +127,43 @@ class Brandwatch
       brand = Brand.new(all_brands["page"]["brands"]["brand"])
       return brand
     end
+    
+   
 
     #return all_brands.inspect
     return nil
   end
   
-  # def self.brand_id(brand)
-  #  end
+   def self.trends(brand)
+     options = { 
+       "query" => {
+         "brandID" => brand.id,
+         "from-day" => '1',
+         'to-day' => '28',
+         'from-month' => '1',
+         'to-month' => '2'
+       },
+       #:headers => Brandwatch.authenticate.to_hash
+       :headers => authenticate
+     }
+     
+     puts "Options: #{options.inspect}"
+    # return options.inspect
+     
+    post('/onebrandtopicsgraphdata', options)
+    
+    # Net::HTTP.start(ROOTURL) {|http|
+    #       req = Net::HTTP::Post.new("/onebrandtopicsgraphdata", options)
+    #       response = http.request(req)
+    #       puts response
+    #       #cookie = response.response['set-cookie'].split(';')[0]
+    #       #return cookie
+    #       #@cookie = Cookie.new(response)
+    #       #return @cookie
+    #     }
+   end
   
+
   
   # def self.trend(brand)
   #     options = { :query => {:}}
