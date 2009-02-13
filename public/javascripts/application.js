@@ -3,12 +3,21 @@
 
 $(document).ready(function() {
     $('a').click(function() {
-        //$(this).next().toggle('fast');
-        $(this).after("<img src='/images/loader.gif'/>");
+        var img = $(this).after("<img src='/images/loader.gif'/>");
+
+
         
         var query = $(this).html();
+        var div = $(this).next();
         
-        $.getJSON('/search?q=' + query);
+        $.getJSON('/search?q=' + query, function(data) {
+            img.next().remove();
+            img.next().show('fast');
+            
+            $.each(data, function(i, element) {
+                img.append("<p><a href='" + element['url']+ "'>" + element['artist'] + ' - ' + element['title'] + "</a><br/></p>")
+            })
+        });
         
         return false;
     })

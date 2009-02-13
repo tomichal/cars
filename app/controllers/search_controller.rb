@@ -7,7 +7,7 @@ class SearchController < ApplicationController
     
     response = Search.get_query(@query)
     
-    render :json => response['response']['results']
+    render :json => response['response']['results']['doc']
   end
   
 end

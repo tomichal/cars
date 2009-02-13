@@ -12,7 +12,7 @@ class Search
       :query => {
         :api_key => 'JJGW9AYXEC1K6QEYI',
         :query => URI.encode(query),
-        :rows => 15,
+        :rows => 10,
         :version => 3
       }
     }
