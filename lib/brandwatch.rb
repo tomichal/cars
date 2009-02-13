@@ -82,13 +82,7 @@ class Brandwatch
       response = http.request(req)
       cookie = response.response['set-cookie'].split(';')[0]
       return {"Cookie" => cookie}
-      #@cookie = Cookie.new(response)
-      #return @cookie
     }
-
-#response = http.request(get)
- # cookie = response.response['set-cookie'].split(';')[0]
-
   end
 
   headers :Cookie => Brandwatch.authenticate
@@ -127,10 +121,7 @@ class Brandwatch
       brand = Brand.new(all_brands["page"]["brands"]["brand"])
       return brand
     end
-    
-   
 
-    #return all_brands.inspect
     return nil
   end
   
@@ -143,31 +134,16 @@ class Brandwatch
          'from-month' => '1',
          'to-month' => '2'
        },
-       #:headers => Brandwatch.authenticate.to_hash
+       
        :headers => authenticate
      }
      
-     puts "Options: #{options.inspect}"
-    # return options.inspect
+    puts "Options: #{options.inspect}"
      
     post('/onebrandtopicsgraphdata', options)
-    
-    # Net::HTTP.start(ROOTURL) {|http|
-    #       req = Net::HTTP::Post.new("/onebrandtopicsgraphdata", options)
-    #       response = http.request(req)
-    #       puts response
-    #       #cookie = response.response['set-cookie'].split(';')[0]
-    #       #return cookie
-    #       #@cookie = Cookie.new(response)
-    #       #return @cookie
-    #     }
-   end
-  
 
-  
-  # def self.trend(brand)
-  #     options = { :query => {:}}
-  #   end
+   end
+
   
 end
 
