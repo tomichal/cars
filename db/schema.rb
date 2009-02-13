@@ -9,11 +9,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090213154132) do
+ActiveRecord::Schema.define(:version => 20090213155533) do
+
   create_table "brands", :force => true do |t|
     t.string   "brand_id"
     t.string   "name"
     t.string   "industry"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "daily_data_points", :force => true do |t|
+    t.integer  "graph_id"
+    t.string   "date"
+    t.string   "end_date"
+    t.string   "mean_bw"
+    t.string   "no_resources"
+    t.string   "total_bw"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "graphs", :force => true do |t|
+    t.integer "brand_id"
+    t.string  "start_date"
+    t.string  "end_date"
+  end
+
+  create_table "searches", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

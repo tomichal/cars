@@ -126,7 +126,7 @@ class Brandwatch
   def self.graph_data(brand)
     options = {
       "query" => {
-        "id" => brand.id,
+        "id" => brand.brand_id,
         "from-day" => '1',
         'to-day' => '28',
         'from-month' => '1',
