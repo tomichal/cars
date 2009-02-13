@@ -1,0 +1,8 @@
+%main
+  %ul
+    - for data in DATA.sort_by{ |item| item['name'] }
+      %li
+        = link_to data['name'], :class => "link_#{data['id']}"
+      
+        %div{:style => 'display:none', :class => "info_#{data['id']}"}
+          hello world
