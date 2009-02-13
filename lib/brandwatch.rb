@@ -7,17 +7,17 @@ require 'net/http'
 require "cgi"
 
 
-class Brand
-  
-  attr_reader :name, :id, :industry
-  
-  def initialize(options)
-    @name = options["name"]
-    @id = options["id"]
-    @industry = options["industry"]
-  end
-
-end
+# class Brand
+#   
+#   attr_reader :name, :id, :industry
+#   
+#   def initialize(options)
+#     @name = options["name"]
+#     @id = options["id"]
+#     @industry = options["industry"]
+#   end
+# 
+# end
 
 
 class Brandwatch
@@ -73,7 +73,13 @@ class Brandwatch
       all_brands = industry_brands('music', brand_name)
       
       
-      brand = Brand.new(all_brands["page"]["brands"]["brand"])
+      brand_params = all_brands["page"]["brands"]["brand"]
+      brand = Brand.create({
+        :brand_id => brand_params["id"],
+        :name => brand_params["name"],
+        :industry => brand_params["industry"]
+      })
+      
       return brand
     end
 
@@ -99,6 +105,41 @@ class Brandwatch
     trend_data = TrendData.new(trend_response)
     trend_data
    end
+
+  def self.metrics(brand)
+    options = {
+      "query" => {
+        "brandID" => brand.id,
+        "startDate" => "01-01-2008",
+        "endDate" => "01-02-2008"
+      },
+       
+      :headers => authenticate
+    }
+    
+    puts "Options: #{options.inspect}"
+    
+    response = post('/onebrandmetricstable', options)
+    response
+  end
+
+  def self.graph_data(brand)
+    options = {
+      "query" => {
+        "id" => brand.id,
+        "from-day" => '1',
+        'to-day' => '28',
+        'from-month' => '1',
+        'to-month' => '2'
+      },
+      
+      :headers => authenticate
+    }
+    
+    response = post('/onebrandgraphdata', options)
+    graph_data = GraphData.new(response)
+    graph_data
+  end
 
   
 end
