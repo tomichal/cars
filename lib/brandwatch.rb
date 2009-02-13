@@ -41,6 +41,11 @@ class Brandwatch
 
   headers :Cookie => Brandwatch.authenticate
 
+  def self.industry_brands(industry, prefix)
+    options = { :query => {:prefix => text, :industry => industry}, :headers => @headers }
+    post('/brandlist', options)
+  end
+
   def self.brands(text)
     options = { :query => {:prefix => text}, :headers => @headers }
     post('/brandlist', options)
