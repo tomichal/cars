@@ -137,7 +137,7 @@ class Brandwatch
     }
     
     response = post('/onebrandgraphdata', options)
-    graph_data = GraphData.new(response)
+    graph_data = GraphData.new(response, brand)
     graph_data
   end
 

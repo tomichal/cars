@@ -1,4 +1,4 @@
-class DailyDataPoint
+class DailyDataPoint < ActiveRecord::Base
   
   belongs_to :graph
   
