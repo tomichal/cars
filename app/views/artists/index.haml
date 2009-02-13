@@ -2,7 +2,7 @@
   %ul
     - for data in DATA.sort_by{ |item| item['name'] }
       %li
-        = image_tag '/images/phones.jpg'
-        = link_to data['name'], :class => "link_#{data['id']}"
-      
+
+        = link_to 'Show brandwatch data', "/brands/new/?artist_name=#{data['name']}"
+        = link_to data['name'], :class => "song_link"
         %div{:style => 'display:none', :class => "info"}

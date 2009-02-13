@@ -4,22 +4,34 @@ class GraphData
   
   def initialize(options, brand)
     @options = options
+    @brand = brand
     save_to_db
     
   end
   
   def save_to_db
-    graph = Graph.create(:brand_id => brand.id)
+    graph = Graph.create(:brand_id => @brand.id)
     
-    data_points.each do |point|
+    #raise @options.inspect
+    brand_data = @options["brandData"]
+    brand = brand_data["brand"][0]
+    #raise brand.inspect
+    
+    days = brand["day"]
+    
+    
+    days.each do |day|        
       DailyDataPoint.create({
-        :graph_id => graph.id
-        :date => point["date"],
-        :mean_bw => point["meanBW"],
-        :total_bw => point["totalBW"],
-        :no_resources => point["noResources"]
-      })
+         :graph_id => graph.id,
+         :date => day["date"],
+        :mean_bw => day["meanBW"],
+         :total_bw => day["totalBW"],
+         :no_resources => day["noResources"]
+       })
+      
     end
+    
+   
   end
   
 end
